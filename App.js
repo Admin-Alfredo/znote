@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import Home from './src/pages/Home'
+import Meta from './src/pages/Meta';
+import MetaEditor from './src/pages/MetaEditor';
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" >
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ title: 'Tela de Boas-vindas' }}
+        />
+        <Stack.Screen
+          name="Meta"
+          component={Meta}
+          options={{ title: 'Metas' }}
+        />
+        <Stack.Screen
+          name="MetaEditor"
+          component={MetaEditor}
+          options={{ title: 'Adicionar Metas' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
