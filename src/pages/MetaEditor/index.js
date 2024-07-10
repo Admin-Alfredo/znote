@@ -1,26 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import Header from '../../components/Header'
 import * as globalStyles from '../../globalStyles'
 import { AntDesign } from '@expo/vector-icons'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-// import DatePicker from '@react-native-community/datetimepicker';
-
-
-
 
 export default function MetaEditor() {
   const [number, setNumber] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(new Date())
+  const toggleDatePicker = () =>
+    setDatePickerVisibility(!isDatePickerVisible);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
 
   const handleConfirm = (date) => {
     console.warn("A date has been picked: ", date);
@@ -43,7 +35,7 @@ export default function MetaEditor() {
 
   return (
     <View style={styles.container}>
-      <Header name='Admiro Alfredo' />
+      <Header name='Admiro Alfreo' />
       <Text style={globalStyles.title}>Adiciona nova meta </Text>
       <View style={styles.controlGroup}>
         <TextInput
@@ -60,15 +52,16 @@ export default function MetaEditor() {
           onChangeText={handleTextChange} />
       </View>
       <View style={styles.controlGroup}>
-        <TouchableOpacity onPress={showDatePicker}>
-          <Text>Final da meta</Text>
+        <TouchableOpacity style={{ ...styles.controlInput, ...styles.controlInputDate }} onPress={toggleDatePicker}>
+          <AntDesign name='calendar' size={30} />
+          <Text style={styles.textDate}>Date final da meta {date.toDateString()}</Text>
         </TouchableOpacity>
-        
+
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
+          onCancel={toggleDatePicker}
         />
 
       </View>
@@ -91,11 +84,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     height: 45,
     padding: 5,
-    fontSize: 20,
+    fontSize: 16,
     borderRadius: 5,
     marginBottom: 15,
     borderColor: 'gray',
     borderWidth: 1,
     paddingLeft: 10,
+  },
+  controlInputDate: {
+    justifyContent: 'flex-start',
+    gap: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  textDate:{
+    fontSize: 16
   }
 })
